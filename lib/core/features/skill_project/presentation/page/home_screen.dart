@@ -12,13 +12,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
- @override
+  @override
   void initState() {
     super.initState();
     context.read<ProductCubit>().fetchProduct();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,38 +26,51 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.blue[400],
         centerTitle: true,
       ),
-      body: BlocBuilder<ProductCubit, CubitState> (
-        builder: (context, state){
-       
-        if(state is ListLoading){
-          return Center(child: CircularProgressIndicator(),
-          );
-        }
-         else if(state is LoadedList){
-        return ListView.builder(
-        itemCount: state.post.length,
-        itemBuilder: (_, index){
-         final item = state.post[index];
-        return ListTile(
-          title: Text(item.title.toString()),
-          subtitle: Text(item.price.toString()),
-          
-        );
-      });
+      body: BlocBuilder<ProductCubit, CubitState>(
+        builder: (context, state) {
+          if (state is ListLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is LoadedList) {
+            return ListView.builder(
+              itemCount: state.post.length,
+              itemBuilder: (_, index) {
+                final item = state.post[index];
+                return Card(
+                  child: ListTile(
+                    title: Text(item.title.toString()),
+                    subtitle: Text(item.price.toString()),
+                  ),
+                );
+              },
+            );
+          } else if (state is ErrorLoaded) {
+            return Center(
+              child: Column(
+                children: [
+                  Text(state.message),
 
-         }
-          else if(state is ErrorLoaded){
-            return Center(child: Text(state.message));
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: context.read<ProductCubit>().fetchProduct,
+                    child: Text("Retry"),
+                  ),
+                ],
+              ),
+            );
           }
 
-          return SizedBox(); 
-      }),
+          return Center(child: Text("No Data Available"));
+        },
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, 
-          MaterialPageRoute(builder: (context)=> const AddPageScreen()));
-        }, 
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddPageScreen()),
+          );
+          context.read<ProductCubit>().fetchProduct();
+        },
         child: Text("Add"),
       ),
     );

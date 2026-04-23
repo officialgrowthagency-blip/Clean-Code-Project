@@ -23,5 +23,28 @@ class ProductCubit extends Cubit<CubitState> {
         
      }
   } 
+  Future<void> addProduct (Map<String, dynamic> products) async {
+     
+     emit(PostActionLoading());
+
+     try {
+       final bool isSuccess = await getProductUseCase.postCall(products);
+
+        if(isSuccess){
+
+         emit(ProductActionSuccess());
+
+         fetchProduct();
+
+        } 
+       
+
+     } catch (e){
+        emit(ErrorLoaded(e.toString()));
+        
+     }
+  } 
+
+    
   
 }

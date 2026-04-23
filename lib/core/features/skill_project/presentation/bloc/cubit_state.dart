@@ -22,6 +22,13 @@ class CubitInitialState extends CubitState {
   
  }
 
+ class PostActionLoading extends CubitState {// state  কি ঠিক আছে 
+  @override
+  
+  List<Object?> get props => [];
+  
+ }
+
 class LoadedList extends CubitState {
 
  final List<CrudEntity> post;
@@ -33,6 +40,15 @@ class LoadedList extends CubitState {
   List<Object?> get props => [post];
 
 }
+
+ class ProductActionSuccess extends CubitState {
+
+  @override
+  List<Object?> get props => [];
+  
+ }
+
+
 
 class ErrorLoaded extends CubitState {
  final String message;

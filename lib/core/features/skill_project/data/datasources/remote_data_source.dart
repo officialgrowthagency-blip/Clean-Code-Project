@@ -1,9 +1,10 @@
-import 'dart:convert';
 import 'package:skill_develop_project/core/features/skill_project/data/models/crud_models.dart';
 import 'package:skill_develop_project/core/network/api_service.dart';
 
 abstract class RemoteDataSource {
    Future<List<CrudModel>> getProduct();
+
+   Future<bool> postProduct(Map<String, dynamic> products);
  }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -15,9 +16,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
    
     final response = await apiService.getCrudApiData("products");
 
-     if(response.statusCode == 200){
+     if(response.isSuccess){
       
-      final List<dynamic> data = jsonDecode(response.body);
+      final List<dynamic> data = response.responseData;
 
        return data.map((item)=> CrudModel.fromJson(item)).toList();
 
@@ -26,5 +27,21 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
      }
   }
+     
+    @override
+      Future<bool> postProduct(Map<String, dynamic> products) async{
+
+      final response = await apiService.postApiData("products", body: products);
+
+       if(response.isSuccess){
+        return true;
+       }
+       else {
+        throw Exception("Failed to post data: ${response.errorMessage}");
+
+       }
+       
+    }
+
   
 }

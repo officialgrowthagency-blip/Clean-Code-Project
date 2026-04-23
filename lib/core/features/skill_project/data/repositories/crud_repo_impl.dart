@@ -19,11 +19,11 @@ class CrudRepoImpl implements CrudRepositories{
        category: s.category,
        image: s.image,
        rating: s.rating != null ? 
-       RatingEntity(rate: s.rating!.rate, count: s.rating!.count) : null
-
-    
-
-      )
+       RatingEntity(
+        rate: s.rating!.rate, 
+        count: s.rating!.count
+        ) : null
+      ),
       ).toList();
 
    }catch (e){
@@ -31,6 +31,14 @@ class CrudRepoImpl implements CrudRepositories{
    }
     
   }
+  
+  @override
+  Future<bool> postCrud(Map<String, dynamic> products) {
+     return remoteDataSource.postProduct(products);
+  }
+
+
+
 
   
 }

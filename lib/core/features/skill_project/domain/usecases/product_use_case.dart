@@ -10,4 +10,11 @@ import 'package:skill_develop_project/core/features/skill_project/domain/reposit
    return await repositories.getCrud();
 
   }
+
+   Future<bool> postCall (Map<String, dynamic> products) async {
+    return await repositories.postCrud(products);
+
+   }
+
+  
 }

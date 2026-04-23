@@ -2,5 +2,6 @@ import 'package:skill_develop_project/core/features/skill_project/domain/entitie
 
 abstract class CrudRepositories {
   Future<List<CrudEntity>> getCrud();
-  
+
+  Future<bool> postCrud (Map<String, dynamic> products); 
 }

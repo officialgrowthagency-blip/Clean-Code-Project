@@ -5,6 +5,8 @@ abstract class RemoteDataSource {
    Future<List<CrudModel>> getProduct();
 
    Future<bool> postProduct(Map<String, dynamic> products);
+
+    Future<bool>deleteProduct (int id);
  }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -42,6 +44,24 @@ class RemoteDataSourceImpl implements RemoteDataSource {
        }
        
     }
+    
+      @override
+      Future<bool> deleteProduct(int id) async{
+        final response = await apiService.deleteProductApi(id);
+
+         if(response.isSuccess){
+           return true;
+         } else {
+          throw Exception("Failed to Delete data : ${response.errorMessage}" );
+         }
+      }
+    
+     
+     
+    
+     
+         
+      
 
   
 }

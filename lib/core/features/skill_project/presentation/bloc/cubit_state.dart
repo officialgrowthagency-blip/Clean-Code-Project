@@ -22,7 +22,7 @@ class CubitInitialState extends CubitState {
   
  }
 
- class PostActionLoading extends CubitState {// state  কি ঠিক আছে 
+ class PostActionLoading extends CubitState {
   @override
   
   List<Object?> get props => [];

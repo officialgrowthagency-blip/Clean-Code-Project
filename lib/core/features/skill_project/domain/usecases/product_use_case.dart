@@ -16,5 +16,10 @@ import 'package:skill_develop_project/core/features/skill_project/domain/reposit
 
    }
 
+   Future<bool> deleteCall(int id)async {
+    return await repositories.deleteCrud(id); 
+
+   }
+
   
 }

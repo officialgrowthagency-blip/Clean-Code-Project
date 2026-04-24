@@ -7,9 +7,11 @@ import 'package:skill_develop_project/core/network/network_response.dart';
 
 class ApiService {
 
+    static String baseUrl = "https://fakestoreapi.com/";
+
   Future<NetworkResponse> getCrudApiData (String endPoint) async {
 
-   final String baseUrl = "https://fakestoreapi.com/";
+   //final String baseUrl = "https://fakestoreapi.com/";
 
     final uri = Uri.parse("$baseUrl/$endPoint");
 
@@ -44,7 +46,7 @@ class ApiService {
 
   Future<NetworkResponse> postApiData (String endPoint, {Map<String, dynamic>? body}) async {
 
-    final String baseUrl = "https://fakestoreapi.com/";
+   // final String baseUrl = "https://fakestoreapi.com/";
 
      final uri = Uri.parse("$baseUrl/$endPoint");
 
@@ -89,7 +91,66 @@ class ApiService {
 
   }
 
+  Future<NetworkResponse> getsingleApiData (String endPoint, int id) async{
 
+    final uri = Uri.parse("$baseUrl/$id");
 
+     try {
 
+       final response = await http.get(uri);
+
+       if(response.statusCode == 200){
+         return NetworkResponse(
+          statusCode: response.statusCode, 
+          isSuccess: true,
+          responseData: jsonDecode(response.body),
+        );
+       }
+        else {
+          return NetworkResponse(
+            statusCode: response.statusCode, 
+            isSuccess: false,
+          );
+        }
+
+     }catch(e){
+       return NetworkResponse(
+        statusCode: -1, 
+        isSuccess: false, 
+        errorMessage: e.toString()
+      );
+     }
+
+  }
+
+  Future<NetworkResponse> deleteProductApi (int id) async {
+
+    final uri = Uri.parse("$baseUrl/products/$id");
+
+    try {
+     final response = await http.delete(
+      uri, 
+     headers: {'Content-Type': 'application/json',} 
+     );
+
+       if(response.statusCode == 200){
+        return NetworkResponse(
+          statusCode: response.statusCode, 
+          isSuccess: true
+          );
+       }
+        else {
+          return NetworkResponse(
+            statusCode: response.statusCode, 
+            isSuccess: false,
+          );
+        }
+    } catch (e){
+       return NetworkResponse(
+        statusCode: -1,
+         isSuccess: false,
+         errorMessage: e.toString()
+        );
+    }
+  }
 }

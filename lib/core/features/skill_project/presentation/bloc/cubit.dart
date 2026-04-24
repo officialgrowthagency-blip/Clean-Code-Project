@@ -45,6 +45,21 @@ class ProductCubit extends Cubit<CubitState> {
      }
   } 
 
+   Future<void> deleteProduct (int id) async { // delete api
+     
+      try {
+        final isSuccess = await getProductUseCase.deleteCall(id);
+
+         if(isSuccess){
+        
+
+         fetchProduct(); 
+         }
+
+      } catch (e){
+        throw Exception("Error Cubit State : ${e.toString()}");
+      }
+   }
     
   
 }

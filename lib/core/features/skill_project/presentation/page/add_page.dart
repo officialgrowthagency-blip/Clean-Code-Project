@@ -70,7 +70,7 @@ class _AddPageScreenState extends State<AddPageScreen> {
               BlocConsumer<ProductCubit, CubitState>(
                 listener: (context, state) {
                   if (state is ProductActionSuccess) {
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                   }
                 },
           

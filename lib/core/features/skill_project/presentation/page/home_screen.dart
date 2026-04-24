@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_develop_project/core/features/skill_project/presentation/bloc/cubit.dart';
 import 'package:skill_develop_project/core/features/skill_project/presentation/bloc/cubit_state.dart';
 import 'package:skill_develop_project/core/features/skill_project/presentation/page/add_page.dart';
+import 'package:skill_develop_project/core/features/skill_project/presentation/page/product_list_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -35,10 +38,26 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: state.post.length,
               itemBuilder: (_, index) {
                 final item = state.post[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(item.title.toString()),
-                    subtitle: Text(item.price.toString()),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(builder: (context)=> ProductListView(product: item,))); 
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(item.title.toString()),
+                      subtitle: Text(item.price.toString()),
+
+                       trailing: IconButton(onPressed: () {
+                      
+
+                        context.read<ProductCubit>().deleteProduct(item.id!);
+
+
+                       }, 
+                       icon: Icon(Icons.delete), color: Colors.red,),
+
+                    ),
                   ),
                 );
               },
@@ -64,15 +83,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddPageScreen()),
           );
-          context.read<ProductCubit>().fetchProduct();
+           if(!mounted) return;
+           
+           if(result == true){
+             context.read<ProductCubit>().fetchProduct();
+           }
         },
         child: Text("Add"),
       ),
     );
   }
+
+ 
 }

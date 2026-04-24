@@ -36,9 +36,13 @@ class CrudRepoImpl implements CrudRepositories{
   Future<bool> postCrud(Map<String, dynamic> products) {
      return remoteDataSource.postProduct(products);
   }
-
-
-
+  
+  @override
+  Future<bool> deleteCrud(int id) {
+     return remoteDataSource.deleteProduct(id);
+  }
+  
+ 
 
   
 }
